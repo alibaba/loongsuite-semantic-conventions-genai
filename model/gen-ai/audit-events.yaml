@@ -93,6 +93,15 @@ groups:
         requirement_level: required
       - ref: gen_ai.request.model
         requirement_level: required
+      - ref: gen_ai.context.window_size
+        requirement_level: recommended
+      - ref: gen_ai.context.tokens_used
+        requirement_level: recommended
+      - ref: gen_ai.context.window_usage_pct
+        requirement_level: recommended
+      - ref: gen_ai.conversation.compacted
+        requirement_level:
+          recommended: when compacted context is confirmed
       - ref: gen_ai.turn.start
         requirement_level: recommended
       - ref: gen_ai.output.type
@@ -194,6 +203,34 @@ groups:
       - ref: gen_ai.usage.cache_read.input_tokens
         requirement_level: recommended
       - ref: gen_ai.output.messages
+        requirement_level: recommended
+
+  - id: event.gen_ai.context.compress
+    name: gen_ai.context.compress
+    type: event
+    stability: development
+    brief: >
+      Captures completion of a conversation context compression operation.
+    note: |
+      Emit one audit event for each confirmed compression operation. Use
+      the completion time as the event timestamp. Include session and turn
+      correlation when available.
+
+      The before and after counts describe the active context on either side
+      of the operation. Any model call used to generate a summary has its own
+      input and output usage. Omit context counts and derived ratios when the
+      runtime does not provide the relevant evidence.
+    attributes:
+      - ref: gen_ai.context.compression_enabled
+        requirement_level: required
+        note: Instrumentations MUST set this attribute to `true` on this event.
+      - ref: gen_ai.context.window_size
+        requirement_level: recommended
+      - ref: gen_ai.context.tokens_before
+        requirement_level: recommended
+      - ref: gen_ai.context.tokens_after
+        requirement_level: recommended
+      - ref: gen_ai.context.compression_ratio
         requirement_level: recommended
 
   - id: event.gen_ai.tool.call

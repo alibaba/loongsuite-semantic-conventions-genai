@@ -1,0 +1,4 @@
+change_type: enhancement
+component: gen-ai
+note: Add context utilization and compression to GenAI audit events.
+issues: [40]
