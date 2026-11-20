@@ -232,6 +232,9 @@ groups:
         requirement_level: recommended
       - ref: gen_ai.context.compression_ratio
         requirement_level: recommended
+      - ref: gen_ai.context.compress.duration
+        requirement_level:
+          recommended: when the elapsed time is known
 
   - id: event.gen_ai.tool.call
     name: gen_ai.tool.call
