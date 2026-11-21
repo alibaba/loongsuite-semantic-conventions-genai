@@ -167,12 +167,15 @@ groups:
       buffered into this terminal response, or represented by a future
       streaming event convention.
 
-      Record `gen_ai.usage.credits` using the reported non-negative credit
-      charge for this model operation. Preserve fractional amounts and an
-      explicitly reported zero. Omit the field when the operation's charge is
+      Record `gen_ai.usage.credits.amount` using the reported non-negative
+      credit amount for this model operation. Use the adjusted amount when a
+      source distinguishes amounts before and after discounts. Preserve
+      fractional amounts and an explicitly reported zero. Record
+      `gen_ai.usage.credits.billable` independently when the source reports
+      it, including an explicit `false`. Omit each field when its value is
       unknown. Record token usage on its existing attributes when available.
-      Consumers SHOULD aggregate credit amounts only within the same credit
-      program.
+      Consumers SHOULD aggregate credits only within the same credit
+      program and use the billing flag when computing billable credits.
     attributes:
       - ref: gen_ai.provider.name
         requirement_level: required
@@ -200,9 +203,12 @@ groups:
         requirement_level: recommended
       - ref: gen_ai.usage.cache_read.input_tokens
         requirement_level: recommended
-      - ref: gen_ai.usage.credits
+      - ref: gen_ai.usage.credits.amount
         requirement_level:
-          recommended: when an operation-level credit charge is reported
+          recommended: when operation-level credits are reported
+      - ref: gen_ai.usage.credits.billable
+        requirement_level:
+          recommended: when credit billing status is reported
       - ref: gen_ai.output.messages
         requirement_level: recommended
 
