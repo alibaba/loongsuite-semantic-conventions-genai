@@ -1,0 +1,4 @@
+change_type: enhancement
+component: gen-ai
+note: Add credit consumption to GenAI model response audit events.
+issues: [42]
