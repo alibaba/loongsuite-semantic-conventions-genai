@@ -221,9 +221,6 @@ groups:
       input and output usage. Omit context counts and derived ratios when the
       runtime does not provide the relevant evidence.
     attributes:
-      - ref: gen_ai.context.compression_enabled
-        requirement_level: required
-        note: Instrumentations MUST set this attribute to `true` on this event.
       - ref: gen_ai.context.window_size
         requirement_level: recommended
       - ref: gen_ai.context.tokens_before

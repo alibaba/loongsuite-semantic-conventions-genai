@@ -1195,11 +1195,6 @@ groups:
         type: double
         brief: The elapsed time from the start of context compression to its completion, in seconds.
         examples: [1.234]
-      - id: gen_ai.context.compression_enabled
-        stability: development
-        type: boolean
-        brief: Indicates whether context compression was active for the operation.
-        examples: [true]
       - id: gen_ai.context.tokens_before
         stability: development
         type: int
