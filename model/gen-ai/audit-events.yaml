@@ -231,7 +231,8 @@ groups:
       - ref: gen_ai.context.tokens_after
         requirement_level: recommended
       - ref: gen_ai.context.compression_ratio
-        requirement_level: recommended
+        requirement_level:
+          conditionally_required: if both counts share a scope and before count > 0
       - ref: gen_ai.context.compress.duration
         requirement_level:
           recommended: when the elapsed time is known
