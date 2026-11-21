@@ -505,13 +505,16 @@ arrived separately. Streaming or intermediate reasoning chunks SHOULD be
 buffered into this terminal response, or represented by a future
 streaming event convention.
 
-Record `gen_ai.usage.credits` as the non-negative amount counted toward
-credit usage for this model operation, after applicable discounts.
-Preserve fractional amounts. Record zero when the source explicitly
-confirms no charge, including a non-billable operation. Omit the
-attribute when the amount counted toward usage is unknown. Record
-token usage on its existing attributes when available. Consumers
-SHOULD aggregate credits only within the same credit program.
+Record `gen_ai.usage.credits.amount` using the reported non-negative
+credit amount for this model operation, including non-billable
+operations. Use the adjusted amount when a source distinguishes
+amounts before and after discounts. Preserve
+fractional amounts and an explicitly reported zero. Record
+`gen_ai.usage.credits.billable` independently when the source reports
+it, including an explicit `false`. Omit each field when its value is
+unknown. Record token usage on its existing attributes when available.
+Consumers SHOULD aggregate credits only within the same credit
+program and use the billing flag when computing billable credits.
 
 **Attributes:**
 
@@ -527,7 +530,8 @@ SHOULD aggregate credits only within the same credit program.
 | [`gen_ai.turn.end`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | boolean | Whether this event marks the logical end of a GenAI turn. [5] | `true` |
 | [`gen_ai.usage.cache_creation.input_tokens`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | int | The number of input tokens written to a provider-managed cache. [6] | `25` |
 | [`gen_ai.usage.cache_read.input_tokens`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | int | The number of input tokens served from a provider-managed cache. [7] | `50` |
-| [`gen_ai.usage.credits`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` when the amount counted toward usage is known | double | The credits counted toward usage for the GenAI operation, in the reporting product's credit unit. | `0.125` |
+| [`gen_ai.usage.credits.amount`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` when operation-level credits are reported | double | The credit amount reported for the GenAI operation, in the reporting product's credit unit. | `0.125` |
+| [`gen_ai.usage.credits.billable`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` when credit billing status is reported | boolean | Whether the reported credit amount counts toward the user's credit usage. | `true`; `false` |
 | [`gen_ai.usage.input_tokens`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | int | The number of tokens used in the GenAI input (prompt). [8] | `100` |
 | [`gen_ai.usage.output_tokens`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | int | The number of tokens used in the GenAI response (completion). | `180` |
 | [`gen_ai.usage.total_tokens`](/docs/registry/attributes/gen-ai.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | int | The total number of tokens used by a GenAI operation. [9] | `300` |
