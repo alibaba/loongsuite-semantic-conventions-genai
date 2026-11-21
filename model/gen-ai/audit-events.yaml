@@ -140,7 +140,7 @@ groups:
     stability: development
     brief: >
       Captures a GenAI model response, including generated messages, completion
-      metadata, and token usage.
+      metadata, and usage.
     note: |
       This event represents the terminal outcome of one model operation,
       including successful responses, provider errors, timeouts, cancellations,
@@ -166,6 +166,13 @@ groups:
       arrived separately. Streaming or intermediate reasoning chunks SHOULD be
       buffered into this terminal response, or represented by a future
       streaming event convention.
+
+      Record `gen_ai.usage.credits` using the reported non-negative credit
+      charge for this model operation. Preserve fractional amounts and an
+      explicitly reported zero. Omit the field when the operation's charge is
+      unknown. Record token usage on its existing attributes when available.
+      Consumers SHOULD aggregate credit amounts only within the same credit
+      program.
     attributes:
       - ref: gen_ai.provider.name
         requirement_level: required
@@ -193,6 +200,9 @@ groups:
         requirement_level: recommended
       - ref: gen_ai.usage.cache_read.input_tokens
         requirement_level: recommended
+      - ref: gen_ai.usage.credits
+        requirement_level:
+          recommended: when an operation-level credit charge is reported
       - ref: gen_ai.output.messages
         requirement_level: recommended
 
