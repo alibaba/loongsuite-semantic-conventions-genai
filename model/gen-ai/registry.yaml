@@ -200,16 +200,11 @@ groups:
           The value is measured from when the client issues the generation request to when the first
           chunk is received in the response stream.
         examples: [0.5, 1.2]
-      - id: gen_ai.usage.credits.amount
+      - id: gen_ai.usage.credits
         stability: development
         type: double
-        brief: The credit amount reported for the GenAI operation, in the reporting product's credit unit.
+        brief: The credits counted toward usage for the GenAI operation, in the reporting product's credit unit.
         examples: [0.125]
-      - id: gen_ai.usage.credits.billable
-        stability: development
-        type: boolean
-        brief: Whether the reported credit amount counts toward the user's credit usage.
-        examples: [true, false]
       - id: gen_ai.usage.input_tokens
         stability: development
         type: int
