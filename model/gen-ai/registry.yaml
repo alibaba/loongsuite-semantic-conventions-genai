@@ -1155,6 +1155,70 @@ groups:
           This attribute SHOULD be set to `true` only on the event that marks
           the end of a turn. It SHOULD be omitted when false or unknown.
         examples: [true]
+      - id: gen_ai.conversation.compacted
+        stability: development
+        type: boolean
+        brief: Indicates whether the effective conversation context used for this operation is a compacted view of a prior conversation.
+        note: >
+          Instrumentations SHOULD set this attribute to `true` only when they can
+          reliably determine that context compaction was applied to the effective
+          input of this operation. They SHOULD omit the attribute otherwise.
+        examples: [true]
+      - id: gen_ai.context.window_size
+        stability: development
+        type: int
+        brief: The effective context window available for model input, in tokens.
+        note: >
+          Use the positive input limit applied by the runtime to the operation.
+          An automatic compaction threshold is a separate limit.
+        examples: [200000]
+      - id: gen_ai.context.tokens_used
+        stability: development
+        type: int
+        brief: The number of input tokens occupying the context window for the model request.
+        note: >
+          Includes cached input tokens. Instrumentation MAY obtain the count
+          from the response to the same request.
+        examples: [130000]
+      - id: gen_ai.context.window_usage_pct
+        stability: development
+        type: double
+        brief: The fraction of the effective context window occupied by the model request.
+        note: >
+          A value of 0.65 represents 65% usage. Use the runtime-reported
+          utilization for the same request when available. Otherwise, compute
+          it as `gen_ai.context.tokens_used` divided by a positive
+          `gen_ai.context.window_size`, using values with the same scope.
+        examples: [0.65]
+      - id: gen_ai.context.compress.duration
+        stability: development
+        type: double
+        brief: The elapsed time from the start of context compression to its completion, in seconds.
+        examples: [1.234]
+      - id: gen_ai.context.tokens_before
+        stability: development
+        type: int
+        brief: The number of context tokens before the compression operation.
+        examples: [160000]
+      - id: gen_ai.context.tokens_after
+        stability: development
+        type: int
+        brief: The number of context tokens retained after the compression operation.
+        note: >
+          Count the retained context using the same scope as
+          `gen_ai.context.tokens_before`. This includes any context retained
+          alongside a generated summary.
+        examples: [40000]
+      - id: gen_ai.context.compression_ratio
+        stability: development
+        type: double
+        brief: The fraction of context tokens retained after compression.
+        note: >
+          Compute as `gen_ai.context.tokens_after` divided by
+          `gen_ai.context.tokens_before` when both counts are available, use the
+          same scope, and the before count is positive. A value of 0.25
+          represents 25% of the original context retained.
+        examples: [0.25]
       - id: gen_ai.event.original_name
         stability: development
         type: string
